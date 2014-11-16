@@ -1,48 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_readNsavefile.c                                 :+:      :+:    :+:   */
+/*   ft_readfile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/15 15:08:16 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/16 13:55:19 by mmercier         ###   ########.fr       */
+/*   Created: 2014/11/16 13:31:54 by mmercier          #+#    #+#             */
+/*   Updated: 2014/11/16 16:10:24 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-  
-#include "libft.h"
+
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include "libft.h"
 
-#define BUFF_SIZE 1
+#define BUFF_SIZE 10
 
-int ft_readNsavefile (int fd)
+int ft_readfile (int fd)
 {
 	int ret;
-	char recept[BUFF_SIZE + 1];
 	int fd_;
-	char *line;
+	char recept[BUFF_SIZE + 1];
+
 	fd_ = fd;
 
-	fichier test = 10 octet = 10 char = 10 BUFF_SIZE
-	while (ret = (read(fd,recept,BUFF_SIZE)))
+	if (fd_ == -1)
+		return (-1);
+	
+	while (ret = read(fd_,recept , BUFF_SIZE))
 	{
-		recept[ret] = '\0';
-		putstr(recept);
+		recept[ret] = '\0'; 
+		ft_putstr(recept);
 	}
-
-		
-		
-		=
-	while ((ret = (read(..))) != NULL)
-	=
-	while (read(...) != NULL)
-	=
-	while (read(...))
-
-	ret[recept] = '\0';
 	return (ret);
 }
 
@@ -54,6 +45,8 @@ int main()
 	fd = open("testfile.txt", O_RDONLY);
 
 
-	retour = ft_readNsavefile (fd);
+	retour = ft_readfile (fd);
+	ft_putnbr(retour);
 	return (0);
 }
+
