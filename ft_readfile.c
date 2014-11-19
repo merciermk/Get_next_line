@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/16 13:31:54 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/18 18:24:07 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/11/19 14:05:17 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <fcntl.h>
 #include "libft.h"
 
-#define BUFF_SIZE 10000
+#define BUFF_SIZE 10
 
 int ft_readfile (int fd)
 {
@@ -26,7 +26,7 @@ int ft_readfile (int fd)
 	char *tmp;
 
 	fd_ = fd;
-	tmp = (char*)malloc(sizeof(char) * (BUFF_SIZE + 1));
+	tmp = malloc(sizeof(char*));
 
 	if (fd_ == -1)
 		return (-1);
@@ -34,8 +34,8 @@ int ft_readfile (int fd)
 	while ((ret = read(fd_,recept , BUFF_SIZE)))
 	{
 		recept[ret] = '\0';
-		tmp  = ft_strcat(tmp ,recept);
-		//ft_putstr(recept);
+		ft_realloc(tmp, BUFF_SIZE);
+		tmp = ft_strcat(tmp ,recept);
 	}
 	ft_putstr("\ntest de char retour\n");
 	ft_putstr(tmp);

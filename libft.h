@@ -68,4 +68,8 @@ void	ft_putstr_fd(char const *s, int fd);
 void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
+//my ft_
+
+void *ft_realloc(void *ptr, size_t size);
+
 #endif
