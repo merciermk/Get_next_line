@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/16 13:31:54 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/20 19:05:33 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/11/22 19:54:11 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,60 +14,60 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #include "libft.h"
+#include <stdio.h>
 
-#define BUFF_SIZE 10
+#define BUFF_SIZE 1
 
-char *ft_readfile (int fd)
+char *ft_readfile (int fd, char *allread)
 {
 	int ret;
-	int fd_;
 	char recept[BUFF_SIZE + 1];
 	char *tmp;
-	
-	fd_ = fd;
-	tmp = (char*)malloc(sizeof(char*));
 
-	while ((ret = read(fd_,recept , BUFF_SIZE)))
+	tmp = (char*)malloc(sizeof(char) + 1);
+
+	while ((ret = read(fd,recept , BUFF_SIZE + 1)))
 	{
 		recept[ret] = '\0';
-		//ft_putstr("while readfile"); //test
 		ft_realloc(tmp, BUFF_SIZE);
 		tmp = ft_strcat(tmp ,recept);
 	}
-	//ft_putstr("\ntest de char retour\n"); // test
-	//ft_putstr(tmp); // test	
+
 	return (tmp);
 }
 
-char *ft_oneline(char *src)
+char *oneline(char *allread, int *cmpt)
 {
-	char *dst;
-	int i;
+	char					*c;
+	int						j;
+	char					*chr;
+	int						mal;
 
-	i = 0;
-
-	while (src[i] != '\n')
+	j = 0;
+	c = (char*)malloc(sizeof(char) * 100);
+	if (allread[*cmpt] == '\n')
+		*cmpt += 1;
+	while (allread[*cmpt] != '\n' && allread[*cmpt] != '\0')
 	{
-		dst[i] = src[i];
-		i++;
-	//	ft_putstr("oneline while"); //test
+		c[j] = allread[*cmpt];
+		*cmpt += 1;
+		j++;
 	}
-	return (dst);
+	c[j] = '\0';
+	return(c);
 }
 
-int get_next_line(int const fd, char ** line)
+int get_next_line(int const fd, char **line)
 {
-	char *allread;
-	char *single;
+	static	char *allread;
+	//char *one;
+	static int cmpt;
 
 	if(fd == -1)
 		return(-1);
-	
-	allread = ft_readfile(fd);
-	single = ft_oneline(allread);
+	if (allread == NULL)
+		allread = ft_readfile(fd, allread);
+	*line = oneline(allread, &cmpt);
 
-
-
-	ft_putstr(single);
 	return(0);
 }
