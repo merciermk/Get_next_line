@@ -1,73 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_readfile.c                                      :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/16 13:31:54 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/22 19:54:11 by mmercier         ###   ########.fr       */
+/*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
+/*   Updated: 2014/11/24 17:22:29 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <unistd.h>
-#include "libft.h"
-#include <stdio.h>
+#include "get_next_line.h"
 
-#define BUFF_SIZE 1
-
-char *ft_readfile (int fd, char *allread)
+void	*ft_realloc(void *ptr, size_t size)
 {
-	int ret;
-	char recept[BUFF_SIZE + 1];
-	char *tmp;
+	char	*res;
 
-	tmp = (char*)malloc(sizeof(char) + 1);
-
-	while ((ret = read(fd,recept , BUFF_SIZE + 1)))
+	if (ptr == NULL)
+		return (malloc(size));
+	if (size == 0)
+		return (ptr);
+	if ((res = (char *)(malloc(size))))
 	{
-		recept[ret] = '\0';
-		ft_realloc(tmp, BUFF_SIZE);
-		tmp = ft_strcat(tmp ,recept);
+		ft_strncpy(res, (const char *)ptr, ft_strlen((char *)ptr));
+		free (ptr);
+		return (res);
 	}
-
-	return (tmp);
+	return (NULL);
 }
 
-char *oneline(char *allread, int *cmpt)
+char *readline(int fd)
 {
-	char					*c;
-	int						j;
-	char					*chr;
-	int						mal;
+	int i;
+	char buf[BUFF_SIZE + 1];
+	char *str;
 
-	j = 0;
-	c = (char*)malloc(sizeof(char) * 100);
-	if (allread[*cmpt] == '\n')
-		*cmpt += 1;
-	while (allread[*cmpt] != '\n' && allread[*cmpt] != '\0')
+	str = ft_strnew(1);
+	//	if (*line == NULL)
+	//		*line = ft_strnew(1);
+
+	while((i = read(fd, buf, BUFF_SIZE)))
 	{
-		c[j] = allread[*cmpt];
-		*cmpt += 1;
-		j++;
+		buf[i] = '\0';
+		str = ft_strjoin(str, buf);		
 	}
-	c[j] = '\0';
-	return(c);
+	return(str);
 }
 
-int get_next_line(int const fd, char **line)
+int	get_next_line(int const fd, char **line)
 {
-	static	char *allread;
-	//char *one;
-	static int cmpt;
 
-	if(fd == -1)
-		return(-1);
-	if (allread == NULL)
-		allread = ft_readfile(fd, allread);
-	*line = oneline(allread, &cmpt);
-
+	*line = readline(fd);
 	return(0);
 }
