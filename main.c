@@ -6,11 +6,11 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/15 14:43:28 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/24 22:01:23 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/11/27 19:32:54 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
-#include "libft.h"
+#include "./libft/libft.h"
 #include <stdio.h>
 
 int get_next_line(int fd, char **line);
@@ -25,10 +25,10 @@ int main()
 		
     while((get_next_line(fd, &c)) != 0)
 	{
-		ft_putstr(c);	
+		printf("%s", c);	
 	}
- 
 /* 
+ 
 	i = get_next_line(fd, &c);
 	ft_putstr(c);
 	printf("%d", i);
