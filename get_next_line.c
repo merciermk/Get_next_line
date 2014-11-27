@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/25 12:47:48 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/11/27 11:29:03 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,15 @@
 #include "libft.h"
 
 
-char *ft_cutpart(char *save, char **line)
+char *ft_cutpart(char **save, char **line)
 {
-	while()	
+	int	lenght;
+	char	*tmp;
+
+	len = ft_strchr(*save, '\n') - *save;
+	tmp = (char*)malloc(sizeof(char) * (ft_strlen(*save)));
+	tmp = ft_strcpy(tmp, save);
+
 }
 int	get_next_line(int const fd, char **line)
 {
