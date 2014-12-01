@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/15 14:43:28 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/27 19:32:54 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/01 11:40:05 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <fcntl.h>
@@ -23,9 +23,10 @@ int main()
 
 	fd = open("testfile.txt", O_RDONLY);
 		
-    while((get_next_line(fd, &c)) != 0)
+    while((get_next_line(fd, &c)) > 0)
 	{
-		printf("%s", c);	
+		ft_putstr(c);
+		ft_putchar('\n');	
 	}
 /* 
  
