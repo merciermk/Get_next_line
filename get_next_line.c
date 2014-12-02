@@ -6,12 +6,19 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
-/*   Updated: 2014/12/01 14:56:46 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/02 15:44:39 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "./libft/libft.h"
+
+static int	ft_end(char **line, char **save)
+{
+	*line = ft_strdup(*save);
+	ft_strdel(save);
+	return (0);
+}
 
 char				*ft_strduplicate(const char *s1)
 {
@@ -44,6 +51,8 @@ static void			ft_cut(char **save, char **line)
 	tmp = *save;
 	*line = ft_strsub(tmp, 0, len);
 	*save = ft_strduplicate(tmp + len + 1);
+	if ((*save) == NULL)
+				ft_strdel(save);
 	free(tmp);
 }
 
@@ -51,19 +60,18 @@ int					get_next_line(int const fd, char **line)
 {
 	static char	*save;
 	char		*tmp;
-	int			r;
+	int		r;
 	char		*buf;
 
 	r = 0;
 	buf = (char*)malloc(sizeof(char) * BUFF_SIZE + 1);
-	if (fd == -1 || BUFF_SIZE <= 0 || r == -1)
+	if (fd == -1 || BUFF_SIZE <= 0 || r == -1 || line == NULL)
 		return (-1);
 	if (fd == 0)
 		return (0);
 	if (save == NULL)
 		save = ft_strnew(BUFF_SIZE + 1);
-	while ((ft_strchr(save, '\n') == NULL) \
-	&& ((r = read(fd, buf, BUFF_SIZE)) > 0) && save != NULL)
+	while ((save != NULL && ft_strchr(save, '\n') == NULL && ((r = read(fd, buf, BUFF_SIZE)) > 0)))
 	{
 		buf[r] = '\0';
 		tmp = save;
@@ -71,7 +79,9 @@ int					get_next_line(int const fd, char **line)
 		free(tmp);
 	}
 	if (r < BUFF_SIZE && ft_strchr(save, '\n') == NULL)
-		return (-1);
+	{
+		return(ft_end(line, &save));
+	}
 	ft_cut(&save, line);
 	return (1);
 }
