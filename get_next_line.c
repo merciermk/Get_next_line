@@ -60,12 +60,12 @@ int					get_next_line(int const fd, char **line)
 {
 	static char	*save;
 	char		*tmp;
-	int		r;
+	int			r;
 	char		*buf;
 
 	r = 0;
 	buf = (char*)malloc(sizeof(char) * BUFF_SIZE + 1);
-	if (fd == -1 || BUFF_SIZE <= 0 || r == -1 || line == NULL)
+	if (fd < 0 || BUFF_SIZE <= 0 || r == -1 || line == NULL)
 		return (-1);
 	if (fd == 0)
 		return (0);
@@ -78,10 +78,10 @@ int					get_next_line(int const fd, char **line)
 		save = ft_strjoin(tmp, buf);
 		free(tmp);
 	}
+	if (r < 0)
+		return (-1);
 	if (r < BUFF_SIZE && ft_strchr(save, '\n') == NULL)
-	{
 		return(ft_end(line, &save));
-	}
 	ft_cut(&save, line);
 	return (1);
 }
