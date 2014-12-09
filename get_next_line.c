@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
-/*   Updated: 2014/12/07 17:07:04 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/09 13:07:47 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,12 @@ static void			ft_cut(char **save, char **line)
 
 static int			verif(char **line, char **save, int r)
 {
-	if (r == 0 && ft_strlen(*save) > 0)
+	if (r == 0 && (ft_strchr(*save, '\n') == NULL))
 	{
 		*line = *save;
+        *save = ft_realloc(*save, ft_strlen(*save) + 1);
 		*save = *save + ft_strlen(*save);
-		r = 1;
+        return (0);
 	}
 	return (r);
 }
@@ -79,7 +80,8 @@ int					get_next_line(int const fd, char **line)
 	char					*tmp;
 	int						r;
 	char					*buf;
-
+    
+    r = 1;
 	if (fd == -1 || line == NULL)
 		return (-1);
 	if (ft_init_gnl(&save, &buf) == -1)
@@ -90,10 +92,12 @@ int					get_next_line(int const fd, char **line)
 		buf[r] = '\0';
 		tmp = save;
 		save = ft_strjoin(tmp, buf);
-		free(tmp);
+        //free(tmp);
 	}
 	if (r < 1)
 		return (verif(line, &save, r));
 	ft_cut(&save, line);
+	//free(tmp);
+	free(buf);
 	return (1);
 }
