@@ -1,23 +1,38 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
-/*   Updated: 2014/12/09 13:07:47 by mmercier         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "get_next_line.h"
+
+char			*ft_mallocat(char *s1, char *s2)
+{
+	unsigned int		len1;
+	unsigned int		len2;
+	char				*tmp;
+    
+	if (!s1 && s2)
+		return (s2);
+	if (s1 && !s2)
+		return (s1);
+	if (!s1 && !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	tmp = NULL;
+	tmp = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!tmp)
+		return (NULL);
+	while (*s1)
+		*tmp++ = *s1++;
+	while (*s2)
+		*tmp++ = *s2++;
+	*tmp = '\0';
+	free(s1 - len1);
+	return (tmp - len1 - len2);
+}
 
 char				*ft_strduplicate(const char *s1)
 {
 	int						i;
 	int						j;
 	char					*s2;
-
+    
 	if (!s1)
 		return (NULL);
 	i = ft_strlen(s1);
@@ -38,7 +53,7 @@ static void			ft_cut(char **save, char **line)
 {
 	size_t					len;
 	char					*tmp;
-
+    
 	len = ft_strchr(*save, '\n') - *save;
 	tmp = *save;
 	*line = ft_strsub(tmp, 0, len);
@@ -48,16 +63,11 @@ static void			ft_cut(char **save, char **line)
 	free(tmp);
 }
 
-static int			verif(char **line, char **save, int r)
+static void		verif(char **line, char **save, int *r)
 {
-	if (r == 0 && (ft_strchr(*save, '\n') == NULL))
-	{
-		*line = *save;
-        *save = ft_realloc(*save, ft_strlen(*save) + 1);
-		*save = *save + ft_strlen(*save);
-        return (0);
-	}
-	return (r);
+	*line = *save;
+	*save = *save + ft_strlen(*save);
+	*r = 1;
 }
 
 static int			ft_init_gnl(char **save, char **buf)
@@ -77,27 +87,26 @@ static int			ft_init_gnl(char **save, char **buf)
 int					get_next_line(int const fd, char **line)
 {
 	static char				*save;
-	char					*tmp;
 	int						r;
 	char					*buf;
     
-    r = 1;
+    
 	if (fd == -1 || line == NULL)
 		return (-1);
 	if (ft_init_gnl(&save, &buf) == -1)
 		return (-1);
-	while ((save != NULL && ft_strchr(save, '\n') == NULL &&
-				((r = read(fd, buf, BUFF_SIZE)) > 0)))
+	while (!(ft_strchr(save, '\n')))
 	{
+		if ((r = read(fd, buf, BUFF_SIZE)) < 1)
+		{
+			if (r == 0 && ft_strlen(save) > 0)
+				verif(line, &save, &r);
+			return (r);
+		}
 		buf[r] = '\0';
-		tmp = save;
-		save = ft_strjoin(tmp, buf);
-        //free(tmp);
+		save = ft_mallocat(save, buf);
 	}
-	if (r < 1)
-		return (verif(line, &save, r));
 	ft_cut(&save, line);
-	//free(tmp);
 	free(buf);
 	return (1);
 }
