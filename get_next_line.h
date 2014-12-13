@@ -15,7 +15,7 @@
 
 # include "libft/libft.h"
 
-# define BUFF_SIZE 100
+# define BUFF_SIZE 1000000000
 
 
 int		get_next_line(int const fd, char **line);

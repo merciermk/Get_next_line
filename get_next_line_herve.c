@@ -70,7 +70,7 @@ static void			ft_get(char **line, char **ptr, int *i, char **str)
 
 static void 		ft_end(char **str, char **ptr)
 {
-	bzero(*str, BUF_SIZE);
+	*str = (char*)(malloc(sizeof(char) * BUF_SIZE));
 	if (ft_strchr(*ptr, '\n') != NULL)
 		*str = ft_strncpy(*str, ft_strchr(*ptr, '\n') + 1, BUF_SIZE);
 	else

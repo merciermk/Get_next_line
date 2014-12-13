@@ -18,7 +18,7 @@
 # include <sys/uio.h>
 # include "libft/libft.h"
 
-# define BUF_SIZE 1
+# define BUF_SIZE 10000000
 
 int	get_next_line(const int fd, char **line);
 

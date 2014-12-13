@@ -22,10 +22,11 @@ static void			ft_cut(char **save, char **tmp)
 	free(*tmp);
 }
 
-static void			verif(char **line, char **save, int *r)
+static void			verif(char **line, char **tmp, int *r, char **save)
 {
-	*line = *save;
-	*save = *save + ft_strlen(*save);
+	*line = *tmp;
+	*save += ft_strlen(*save);
+	*tmp += ft_strlen(*tmp);
 	*r = 1;
 }
 
@@ -48,14 +49,14 @@ static char			*ft_line_read(char *tmp, char end)
 	size_t			t;
 	char			*line;
 
-	i = 0;
+	t = 0;
 	while (tmp[t] != end)
 		t++;
-	line = (char *)malloc((i + 1) * sizeof(char));
-	i = 0;
+	line = (char *)malloc((t + 1) * sizeof(char));
+	t = 0;
 	while (tmp[t] != end)
 	{
-		line[i] = tmp[i];
+		line[t] = tmp[t];
 		t++;
 	}
 	line[t] = '\0';
@@ -73,13 +74,13 @@ int					get_next_line(int const fd, char **line)
 		return (-1);
 	if (ft_init_gnl(&save, &buf) == -1)
 		return (-1);
-	tmp = ft_strncpy(ft_strnew(BUFF_SIZE), save, BUFF_SIZE);
+	tmp = ft_strncpy(ft_memalloc(BUFF_SIZE), save, BUFF_SIZE);
 	while (!(ft_strchr(tmp, '\n')))
 	{
 		if ((r = read(fd, buf, BUFF_SIZE)) < 1)
 		{
 			if (r == 0 && ft_strlen(tmp) > 0)
-				verif(line, &tmp, &r);
+				verif(line, &tmp, &r, &save);
 			return (r);
 		}
 		buf[r] = '\0';
