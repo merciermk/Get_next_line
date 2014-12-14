@@ -14,7 +14,7 @@
 
 static void			ft_cut(char **save, char **tmp)
 {
-	bzero(*save, BUFF_SIZE);
+	ft_bzero(*save, BUFF_SIZE);
 	if (ft_strchr(*tmp, '\n') != NULL)
 		*save = ft_strncpy(*save, ft_strchr(*tmp, '\n') + 1, BUFF_SIZE);
 	else
