@@ -22,7 +22,7 @@ static void			ft_cut(char **save, char **tmp)
 	free(*tmp);
 }
 
-static void			verif(char **line, char **tmp, int *r, char **save)
+static void			ft_verif(char **line, char **tmp, int *r, char **save)
 {
     if (*r == 0 && ft_strlen(*tmp) > 0)
     {
@@ -82,7 +82,7 @@ int					get_next_line(int const fd, char **line)
 	{
 		if ((r = read(fd, buf, BUFF_SIZE)) < 1)
 		{
-				verif(line, &tmp, &r, &save);
+            ft_verif(line, &tmp, &r, &save);
             if (r == 0 && ft_strlen(tmp) == 0)
                 return (0);
 			return (r);
