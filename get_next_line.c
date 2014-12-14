@@ -24,10 +24,15 @@ static void			ft_cut(char **save, char **tmp)
 
 static void			verif(char **line, char **tmp, int *r, char **save)
 {
-	*line = *tmp;
-	*save += ft_strlen(*save);
-	*tmp += ft_strlen(*tmp);
-	*r = 1;
+    if (*r == 0 && ft_strlen(*tmp) > 0)
+    {
+        *line = *tmp;
+        *save += ft_strlen(*save);
+        *tmp += ft_strlen(*tmp);
+        *r = 1;
+    }
+    if (*r == 0 && ft_strlen(*tmp) == 0)
+        *line = NULL;
 }
 
 static int			ft_init_gnl(char **save, char **buf)
@@ -70,17 +75,16 @@ int					get_next_line(int const fd, char **line)
 	char					*buf;
 	char					*tmp;
 
-	if (fd == -1 || line == NULL)
-		return (-1);
-	if (ft_init_gnl(&save, &buf) == -1)
+	if (fd == -1 || line == NULL || (ft_init_gnl(&save, &buf) == -1))
 		return (-1);
 	tmp = ft_strncpy(ft_memalloc(BUFF_SIZE), save, BUFF_SIZE);
 	while (!(ft_strchr(tmp, '\n')))
 	{
 		if ((r = read(fd, buf, BUFF_SIZE)) < 1)
 		{
-			if (r == 0 && ft_strlen(tmp) > 0)
 				verif(line, &tmp, &r, &save);
+            if (r == 0 && ft_strlen(tmp) == 0)
+                return (0);
 			return (r);
 		}
 		buf[r] = '\0';
