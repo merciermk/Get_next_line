@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/24 13:15:57 by mmercier          #+#    #+#             */
-/*   Updated: 2014/12/13 14:58:13 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/15 12:30:10 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ static void			ft_cut(char **save, char **tmp)
 
 static void			ft_verif(char **line, char **tmp, int *r, char **save)
 {
-    if (*r == 0 && ft_strlen(*tmp) > 0)
-    {
-        *line = *tmp;
-        *save += ft_strlen(*save);
-        *tmp += ft_strlen(*tmp);
-        *r = 1;
-    }
-    if (*r == 0 && ft_strlen(*tmp) == 0)
-        *line = NULL;
+	if (*r == 0 && ft_strlen(*tmp) > 0)
+	{
+		*line = *tmp;
+		*save += ft_strlen(*save);
+		*tmp += ft_strlen(*tmp);
+		*r = 1;
+	}
+	if (*r == 0 && ft_strlen(*tmp) == 0)
+		*line = NULL;
 }
 
 static int			ft_init_gnl(char **save, char **buf)
@@ -82,9 +82,9 @@ int					get_next_line(int const fd, char **line)
 	{
 		if ((r = read(fd, buf, BUFF_SIZE)) < 1)
 		{
-            ft_verif(line, &tmp, &r, &save);
-            if (r == 0 && ft_strlen(tmp) == 0)
-                return (0);
+			ft_verif(line, &tmp, &r, &save);
+			if (r == 0 && ft_strlen(tmp) == 0)
+				return (0);
 			return (r);
 		}
 		buf[r] = '\0';

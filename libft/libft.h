@@ -6,7 +6,7 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/04 12:11:48 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/20 13:25:38 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/11 14:50:44 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 char	**ft_strsplit(char const *s, char c);
 char	*ft_mallocat(char *s1, char *s2);
-void    *ft_realloc(void *ptr, size_t size);
+void	*ft_realloc(void *ptr, size_t size);
 
 #endif

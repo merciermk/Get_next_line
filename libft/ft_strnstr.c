@@ -6,31 +6,37 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/10 20:07:49 by mmercier          #+#    #+#             */
-/*   Updated: 2014/11/15 11:10:30 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/11 14:45:19 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strnstr(const char *s1, const char *s2, size_t n)
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	size_t	i;
-	size_t	j;
+	char	c;
+	char	sc;
+	size_t	l;
+	int		i;
 
 	i = 0;
-	j = 0;
-	if (!*s2)
-		return ((char*)s1);
-	while (s1[i] != '\0' && i <= n)
+	if ((c = *s2++) != '\0')
 	{
-		while (s1[i] == s2[j] && i <= n)
+		l = ft_strlen(s2);
+		while (!i || ft_strncmp(s1, s2, l) != 0)
 		{
-			i++;
-			j++;
-			if (s2[j] == '\0')
-				return ((char*)s1 + i - j);
+			i = 1;
+			if ((sc = *s1++) == '\0' || n-- < 1)
+				return (NULL);
+			while (sc != c)
+			{
+				if ((sc = *s1++) == '\0' || n-- < 1)
+					return (NULL);
+			}
+			if (l > n)
+				return (NULL);
 		}
-		i++;
+		s1--;
 	}
-	return (NULL);
+	return ((char *)s1);
 }

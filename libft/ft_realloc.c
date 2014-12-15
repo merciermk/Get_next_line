@@ -6,10 +6,9 @@
 /*   By: mmercier <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/09 18:48:54 by mmercier          #+#    #+#             */
-/*   Updated: 2014/12/09 18:49:17 by mmercier         ###   ########.fr       */
+/*   Updated: 2014/12/11 14:39:04 by mmercier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "libft.h"
 
@@ -28,4 +27,3 @@ void *ft_realloc(void *ptr, size_t size)
 	free(tmp);
 	return (ptr);
 }
-
